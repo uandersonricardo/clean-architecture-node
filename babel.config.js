@@ -14,7 +14,12 @@ module.exports = {
     [
       "module-resolver",
       {
-        alias: {},
+        alias: {
+          "@adapters": "./src/adapters",
+          "@core": "./src/core",
+          "@infra": "./src/infra",
+          "@presentation": "./src/presentation",
+        },
       },
     ],
   ],

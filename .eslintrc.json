@@ -26,9 +26,9 @@
   "rules": {
     "prettier/prettier": "error",
     "space-before-function-paren": "off",
-    "react/prop-types": "off",
-    "react/no-children-prop": "off",
+    "node/handle-callback-err": "off",
     "no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-use-before-define": ["error"],
     "import/no-unresolved": "off",
     "react/react-in-jsx-scope": "off",

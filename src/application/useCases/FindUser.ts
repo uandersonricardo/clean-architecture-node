@@ -1,4 +1,4 @@
-import UserRepository from "@core/repositories/UserRepository";
+import UserRepository from "@application/repositories/UserRepository";
 
 interface FindUserRequest {
   id: string;

@@ -7,7 +7,7 @@
     "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
     "start": "node dist/index.js",
     "test": "jest",
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --no-notify src/index.ts"
+    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --no-notify src/infrastructure/http/server.ts"
   },
   "repository": "git@github.com:alfabete/back-end.git",
   "author": "Alfabete",
@@ -18,8 +18,10 @@
     "@babel/node": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-typescript": "^7.15.0",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.0.2",
+    "@types/morgan": "^1.9.3",
     "@types/node": "^16.10.3",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
@@ -39,6 +41,11 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.1.30"
   }
 }

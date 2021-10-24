@@ -1,14 +1,14 @@
-import CreateUser from "@application/useCases/CreateUser";
-import FindUser from "@application/useCases/FindUser";
+import SignUp from "@application/useCases/auth/SignUp";
+import FindUser from "@application/useCases/user/FindUser";
 import NanoIdGenerator from "@infrastructure/gateways/NanoIdGenerator";
 import UserRepositoryInMemory from "@infrastructure/repositories/inMemory/UserRepositoryInMemory";
 
-describe("create user", () => {
-  it("should create user", async () => {
+describe("Sign Up UseCase", () => {
+  it("should register account", async () => {
     const userRepositoryInMemory = new UserRepositoryInMemory();
     const nanoIdGenerator = new NanoIdGenerator();
 
-    const createUser = new CreateUser(userRepositoryInMemory, nanoIdGenerator);
+    const signUp = new SignUp(userRepositoryInMemory, nanoIdGenerator);
 
     const user = {
       email: "uandersonrfs@gmail.com",
@@ -16,7 +16,7 @@ describe("create user", () => {
       password: "senha",
     };
 
-    const userId = await createUser.execute(user);
+    const userId = await signUp.execute(user);
 
     const findUser = new FindUser(userRepositoryInMemory);
     const userFound = await findUser.execute({ id: userId });

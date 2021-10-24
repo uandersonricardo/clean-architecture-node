@@ -2,13 +2,13 @@ import IdGenerator from "@application/gateways/IdGenerator";
 import UserRepository from "@application/repositories/UserRepository";
 import User from "@domain/User";
 
-interface CreateUserRequest {
+interface SignUpRequest {
   name: string;
   email: string;
   password: string;
 }
 
-export default class CreateUser {
+export default class SignUp {
   private userRepository: UserRepository;
   private idGenerator: IdGenerator;
 
@@ -17,7 +17,7 @@ export default class CreateUser {
     this.idGenerator = idGenerator;
   }
 
-  async execute(data: CreateUserRequest) {
+  async execute(data: SignUpRequest) {
     if (await this.userRepository.findByEmail(data.email)) {
       throw new Error("User already exists");
     }
@@ -30,8 +30,8 @@ export default class CreateUser {
 
     const user = new User(userProps);
 
-    const createdUser = await this.userRepository.create(user);
+    const registeredUser = await this.userRepository.create(user);
 
-    return createdUser.id;
+    return registeredUser.id;
   }
 }

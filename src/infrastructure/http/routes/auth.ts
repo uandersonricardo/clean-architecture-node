@@ -1,14 +1,14 @@
 import { Application, Router } from "express";
 
 import ExpressAdapter from "@presentation/adapters/ExpressAdapter";
-import UserController from "@presentation/controllers/UserController";
+import AuthController from "@presentation/controllers/AuthController";
 
 const user = (app: Application): void => {
   const router = Router();
 
-  router.get("/:id", ExpressAdapter.create(UserController.findUser));
+  router.post("/signup", ExpressAdapter.create(AuthController.signUp));
 
-  app.use("/user", router);
+  app.use("/auth", router);
 };
 
 export default user;

@@ -7,6 +7,7 @@ const user = (app: Application): void => {
   const router = Router();
 
   router.post("/signup", ExpressAdapter.create(AuthController.signUp));
+  router.post("/signin", ExpressAdapter.create(AuthController.signIn));
 
   app.use("/auth", router);
 };

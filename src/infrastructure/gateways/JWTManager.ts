@@ -3,13 +3,15 @@ import { sign, verify } from "jsonwebtoken";
 import TokenManager from "@application/gateways/TokenManager";
 
 export default class JWTManager implements TokenManager {
-  generate(params: any, secret: string, expiresIn?: number): string {
+  private secret = process.env.APP_SECRET ?? "jwt-secret";
+
+  generate(params: any, expiresIn?: number): string {
     const options = { expiresIn: expiresIn ?? 60 };
 
-    return sign(params, secret, options);
+    return sign(params, this.secret, options);
   }
 
-  validate(token: string, secret: string): any {
-    return verify(token, secret);
+  validate(token: string): any {
+    return verify(token, this.secret);
   }
 }

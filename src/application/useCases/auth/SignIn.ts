@@ -1,24 +1,34 @@
 import CryptoManager from "@application/gateways/CryptoManager";
+import IdGenerator from "@application/gateways/IdGenerator";
 import TokenManager from "@application/gateways/TokenManager";
+import RefreshTokenRepository from "@application/repositories/RefreshTokenRepository";
 import UserRepository from "@application/repositories/UserRepository";
+import RefreshToken from "@domain/RefreshToken";
 
 interface SignInRequest {
   email: string;
   password: string;
+  userAgent: string;
 }
 
 export default class SignIn {
   private userRepository: UserRepository;
-  private tokenManager: TokenManager;
+  private refreshTokenRepository: RefreshTokenRepository;
+  private accessTokenManager: TokenManager;
+  private refreshTokenGenerator: IdGenerator;
   private cryptoManager: CryptoManager;
 
   constructor(
     userRepository: UserRepository,
-    tokenManager: TokenManager,
+    refreshTokenRepository: RefreshTokenRepository,
+    accessTokenManager: TokenManager,
+    refreshTokenGenerator: IdGenerator,
     cryptoManager: CryptoManager
   ) {
     this.userRepository = userRepository;
-    this.tokenManager = tokenManager;
+    this.refreshTokenRepository = refreshTokenRepository;
+    this.accessTokenManager = accessTokenManager;
+    this.refreshTokenGenerator = refreshTokenGenerator;
     this.cryptoManager = cryptoManager;
   }
 
@@ -38,8 +48,20 @@ export default class SignIn {
       throw new Error("Invalid password");
     }
 
-    const accessToken = this.tokenManager.generate({ id: user.id }, 60);
+    const accessToken = this.accessTokenManager.generate({ id: user.id }, 60);
 
-    return accessToken;
+    const refreshTokenProps: RefreshToken = {
+      id: this.refreshTokenGenerator.generate(),
+      user: user,
+      expiresIn: 60 * 60 * 24 * 30,
+      userAgent: data.userAgent,
+      createdAt: new Date(),
+    };
+
+    const refreshToken = await this.refreshTokenRepository.create(
+      refreshTokenProps
+    );
+
+    return { accessToken, refreshToken: refreshToken.id };
   }
 }
